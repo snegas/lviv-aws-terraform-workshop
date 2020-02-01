@@ -1,8 +1,9 @@
 .idea
 .terraform
+tmp
 
 terraform.*
 
-./backend.tf
+backend.tf
 
 lviv-aws-terraform-workshop.iml
