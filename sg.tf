@@ -4,6 +4,10 @@ module "public-sg" {
   name = "${local.prefix}-public-sg"
 
   ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_rules = ["all-all"]
+
+  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules = ["all-all"]
 
   vpc_id = module.vpc.vpc_id
 }
@@ -12,12 +16,15 @@ module "private-sg" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "3.4.0"
 
-  computed_ingress_with_source_security_group_id = [
+  ingress_with_source_security_group_id = [
     {
-      rule = "all-all-tcp"
+      rule = "all-all"
       source_security_group_id = module.public-sg.this_security_group_id
     }
   ]
+
+  egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_rules = ["all-all"]
 
   name = "${local.prefix}-private-sg"
   vpc_id = module.vpc.vpc_id
@@ -30,9 +37,16 @@ module "rds-sg" {
   name = "${local.prefix}-postgresql-sg"
   vpc_id = module.vpc.vpc_id
 
-  computed_ingress_with_source_security_group_id = [
+  ingress_with_source_security_group_id = [
     {
       rule = "postgresql-tcp"
+      source_security_group_id = module.private-sg.this_security_group_id
+    }
+  ]
+
+  egress_with_source_security_group_id = [
+    {
+      rule = "all-all"
       source_security_group_id = module.private-sg.this_security_group_id
     }
   ]
