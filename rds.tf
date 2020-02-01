@@ -32,4 +32,10 @@ module "rds" {
 
   create_db_option_group = false
   create_db_parameter_group = false
+
+  create_monitoring_role = true
+  enabled_cloudwatch_logs_exports = [
+    "postgresql",
+    "upgrade"
+  ]
 }
