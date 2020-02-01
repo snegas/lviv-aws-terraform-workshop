@@ -41,6 +41,10 @@ module "rds-sg" {
     {
       rule = "postgresql-tcp"
       source_security_group_id = module.private-sg.this_security_group_id
+    },
+    {
+      rule = "postgresql-tcp"
+      source_security_group_id = module.eks-cluster.worker_security_group_id
     }
   ]
 

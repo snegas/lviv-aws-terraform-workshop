@@ -29,3 +29,33 @@ module "eks-cluster" {
     }
   ]
 }
+
+resource "aws_iam_policy" "cloudwatch-access" {
+  name = "${local.prefix}-allow-push-to-cloudwatch"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "logs",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams"
+            ],
+            "Resource": [
+                "arn:aws:logs:*:*:*"
+            ]
+        }
+    ]
+}
+EOF
+
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch-access" {
+  role = module.eks-cluster.worker_iam_role_name
+  policy_arn = aws_iam_policy.cloudwatch-access.arn
+}
