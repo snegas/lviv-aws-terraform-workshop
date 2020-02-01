@@ -2,7 +2,7 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "2.21.0"
 
-  name = "${local.prefix}-vpc"
+  name = local.vpc_name
   cidr = local.cidr
 
   azs = [
@@ -26,4 +26,16 @@ module "vpc" {
   ]
 
   enable_nat_gateway = true
+
+  vpc_tags = {
+    "kubernetes.io/cluster/${local.eks_name}" = "shared"
+  }
+
+  public_subnet_tags = {
+    "kubernetes.io/role/alb" = "1"
+  }
+
+  private_subnet_tags = {
+    "kubernetes.io/cluster/${local.eks_name}" = "shared"
+  }
 }
