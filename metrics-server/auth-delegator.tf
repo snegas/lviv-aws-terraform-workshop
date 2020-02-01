@@ -12,6 +12,6 @@ resource "kubernetes_cluster_role_binding" "auth-delegator" {
   subject {
     kind = "ServiceAccount"
     name = local.name
-    namespace = "kube-system"
+    namespace = local.namespace
   }
 }

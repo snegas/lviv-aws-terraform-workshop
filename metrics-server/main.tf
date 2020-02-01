@@ -30,6 +30,7 @@ resource "kubernetes_deployment" "metrics-server" {
       }
       spec {
         service_account_name = kubernetes_service_account.metrics-server.metadata.0.name
+        automount_service_account_token = true
 
         volume {
           name = "tmp-dir"
@@ -42,7 +43,9 @@ resource "kubernetes_deployment" "metrics-server" {
           image_pull_policy = "Always"
           args = [
             "--cert-dir=/tmp",
-            "--secure-port=4443"
+            "--secure-port=4443",
+            "--kubelet-insecure-tls",
+            "--kubelet-preferred-address-types=[Hostname,InternalIP,ExternalIP]"
           ]
 
           port {

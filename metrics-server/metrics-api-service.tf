@@ -4,6 +4,11 @@ resource "kubernetes_api_service" "metrics-server" {
   }
 
   spec {
+    service {
+      name = local.name
+      namespace = local.namespace
+    }
+
     group = "metrics.k8s.io"
     group_priority_minimum = 100
     version = "v1beta1"

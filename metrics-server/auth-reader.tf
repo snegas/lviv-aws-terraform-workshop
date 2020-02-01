@@ -12,6 +12,6 @@ resource "kubernetes_role_binding" "auth-reader" {
   subject {
     kind = "ServiceAccount"
     name = local.name
-    namespace = "kube-system"
+    namespace = local.namespace
   }
 }
