@@ -9,14 +9,14 @@ resource "kubernetes_deployment" "metrics-server" {
   metadata {
     name = local.name
     namespace = local.namespace
-    labels {
+    labels = {
       k8s-app = local.name
     }
   }
 
   spec {
     selector {
-      match_labels {
+      match_labels = {
         k8s-app = local.name
       }
     }
@@ -24,12 +24,12 @@ resource "kubernetes_deployment" "metrics-server" {
     template {
       metadata {
         name = local.name
-        labels {
+        labels = {
           k8s-app = local.name
         }
       }
       spec {
-        service_account_name = kubernetes_service_account.metrics-server.metadata.name
+        service_account_name = kubernetes_service_account.metrics-server.metadata.0.name
 
         volume {
           name = "tmp-dir"

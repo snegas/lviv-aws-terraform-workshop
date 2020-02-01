@@ -1,16 +1,16 @@
-resource "kubernetes_service" "" {
+resource "kubernetes_service" "metrics-server" {
   metadata {
     name = local.name
     namespace = local.namespace
 
-//    labels {
-//      "kubernetes.io/name" = "Metrics-server"
-//      "kubernetes.io/cluster-service" = "true"
-//    }
+    labels = {
+      "kubernetes.io/name" = "Metrics-server"
+      "kubernetes.io/cluster-service" = "true"
+    }
   }
 
   spec {
-    selector {
+    selector = {
       k8s-app = local.name
     }
 

@@ -29,7 +29,8 @@ resource "kubernetes_cluster_role_binding" "metrics-server" {
     name = "system:${local.name}"
   }
   subject {
-    kind = ""
-    name = ""
+    kind = "ServiceAccount"
+    name = local.name
+    namespace = local.namespace
   }
 }
