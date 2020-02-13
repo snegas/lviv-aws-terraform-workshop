@@ -43,7 +43,8 @@ resource "aws_iam_policy" "cloudwatch-access" {
                 "logs:CreateLogStream",
                 "logs:PutLogEvents",
                 "logs:DescribeLogGroups",
-                "logs:DescribeLogStreams"
+                "logs:DescribeLogStreams",
+                "logs:CreateLogGroup"
             ],
             "Resource": [
                 "arn:aws:logs:*:*:*"
